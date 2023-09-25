@@ -1,25 +1,34 @@
-import { useState } from 'react';
-import { StyleSheet, Text, View, Button, Dimensions, TextInput } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Button, Dimensions, TextInput, FlatList } from 'react-native';
 
 export default function App() {
 
   const [num1, setNum1] = useState(0);
   const [num2, setNum2] = useState(0);
   const [sum, setSum] = useState(num1+num2);
+  const [data, setData] = useState([]);
+  const [text, setText] = useState('');
 
   function plus() {
     const newTotal = num1 + num2;
     setSum(newTotal);
+    setData([...data, {key: num1 + " + " + num2 + " = " + newTotal}]);
+    setNum1('');
+    setNum2('');
   }
 
   function minus() {
     const newTotal = num1 - num2;
     setSum(newTotal);
+    setData([...data, {key: num1 + " - " + num2 + " = " + newTotal}]);
+    setNum1('');
+    setNum2('');
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.answer}>
+      <Text>
         Result: {sum}
       </Text>
       <TextInput
@@ -30,16 +39,26 @@ export default function App() {
         onChangeText = {e => {setNum1(Number.parseInt(e));}}
       />
       <TextInput
-        type="number"
         keyboardType="numeric"
         placeholder = "number 2"
         style={styles.input}
         value={num2}
         onChangeText = {e => {setNum2(Number.parseInt(e));}}
       />
-      <View style={styles.buttons}>
+      <View style={styles.buttons} >
         <Button title="+" onPress={plus} />
         <Button title="-" onPress={minus} />
+      </View>
+      <View style={styles.list}>
+        <Text>History</Text>
+        <FlatList
+        data={data}
+        renderItem={({item}) =>
+          <Text>{item.key}</Text>
+          }
+          keyExtractor={(item, index) => index.toString()}
+        />
+        <StatusBar style='auto' />
       </View>
     </View>
   );
@@ -52,7 +71,8 @@ const styles = StyleSheet.create({
     borderColor: "grey",
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    paddingTop: 50,
   },
 
   buttons: {
@@ -66,6 +86,7 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderColor: "grey",
+    display: "flex",
     width: 80,
     margin: 5,
     paddingHorizontal: 3,
@@ -76,4 +97,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     color: "#0000FF",
   },
+
+  list: {
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: 10,
+  }
 });
