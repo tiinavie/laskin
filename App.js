@@ -8,7 +8,6 @@ export default function App() {
   const [num2, setNum2] = useState(0);
   const [sum, setSum] = useState(num1+num2);
   const [data, setData] = useState([]);
-  const [text, setText] = useState('');
 
   function plus() {
     const newTotal = num1 + num2;
@@ -45,7 +44,7 @@ export default function App() {
         value={num2}
         onChangeText = {e => {setNum2(Number.parseInt(e));}}
       />
-      <View style={styles.buttons} >
+      <View style={styles.buttons}>
         <Button title="+" onPress={plus} />
         <Button title="-" onPress={minus} />
       </View>
