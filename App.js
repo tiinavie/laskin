@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
   answer: {
     justifyContent: "center",
     alignItems: "center",
-    color: "#0000FF",
   },
 
   list: {
